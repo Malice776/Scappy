@@ -12,7 +12,7 @@ class EJusticeSpider(scrapy.Spider):
         with open("entreprises.csv", newline="", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                num = clean_num(row.get("ondernemingsnummer", ""))
+                num = clean_num(row.get("EnterpriseNumber", ""))  
                 if not num:
                     continue
                 params = {"language": "fr", "btw": num, "fromtab": 1}
@@ -58,7 +58,7 @@ class EJusticeSpider(scrapy.Spider):
         }
 
         yield {
-            "ondernemingsnummer": num,
+            "EnterpriseNumbe": num,
             "source": "ejustice",
             "ejustice_publications": [pub],
         }

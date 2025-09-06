@@ -9,7 +9,7 @@ class ConsultSpider(scrapy.Spider):
         with open("entreprises.csv", newline="", encoding="utf-8") as f:
             reader = csv.DictReader(f)
             for row in reader:
-                num = clean_num(row.get("ondernemingsnummer", ""))
+                num = clean_num(row.get("EnterpriseNumber", ""))  
                 if not num:
                     continue
                 url = f"https://consult.cbso.nbb.be/consult-enterprise/{num}"
@@ -33,7 +33,7 @@ class ConsultSpider(scrapy.Spider):
             if not (year or date_txt or type_txt or ref or pdf):
                 continue
             yield {
-                "ondernemingsnummer": num,
+                "EnterpriseNumbe": num,
                 "source": "nbb",
                 "nbb_depots": [{
                     "exercice": year or None,

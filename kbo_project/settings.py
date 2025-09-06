@@ -12,10 +12,15 @@ NEWSPIDER_MODULE = "kbo_project.spiders"
 DEFAULT_REQUEST_HEADERS = {
     "Accept-Language": os.getenv("LANG_HEADER", "fr"),
 }
-USER_AGENT = (
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/123.0 Safari/537.36 ScrapyTP"
-)
+DOWNLOAD_DELAY = 3  # au moins 3 secondes entre requêtes
+RANDOMIZE_DOWNLOAD_DELAY = True
+CONCURRENT_REQUESTS = 1
+USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/117.0"
+
+# USER_AGENT = (
+#     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+#     "(KHTML, like Gecko) Chrome/123.0 Safari/537.36 ScrapyTP"
+# )
 
 ROBOTSTXT_OBEY = True
 DOWNLOAD_DELAY = 0.75

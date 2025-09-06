@@ -18,7 +18,7 @@ class MongoUpsertPipeline:
 
     def process_item(self, item: Dict[str, Any] | Item, spider):
         d = dict(item)
-        num = d.get("ondernemingsnummer")
+        num = d.get("EnterpriseNumber")  # correspond au champ du spider
         src = d.get("source")
 
         update = {}
