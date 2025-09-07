@@ -5,6 +5,7 @@ import unicodedata
 from urllib.parse import urlencode
 from kbo_project.utils.parsing import clean_num
 from kbo_project.utils.kbo_sections import extract_dl_as_kv
+import pandas as pd
 
 BASE = "https://kbopub.economie.fgov.be/kbopub/toonondernemingps.html"
 
@@ -16,26 +17,28 @@ class KboSpider(scrapy.Spider):
     }
 
     def start_requests(self):
-        with open("entreprises.csv", newline="", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                num = clean_num(row.get("EnterpriseNumber", ""))  # bonne colonne
-                if not num:
-                    continue
-                params = {
-                    "lang": "fr",
-                    "ondernemingsnummer": num,
-                }
-                url = f"{BASE}?{urlencode(params)}"
+        df = pd.read_csv("entreprises.csv")
 
-                self.logger.info(f"Fetching {url}")
-                yield scrapy.Request(
-                    url,
-                    headers={"Accept-Language": "fr"},
-                    callback=self.parse_company,
-                    cb_kwargs={"num": num},
-                )
+        for numero in df["EnterpriseNumber"]:
+            numero_clean = numero.replace(".", "")
+            url = f"https://kbopub.economie.fgov.be/kbopub/toonondernemingps.html?lang=fr&ondernemingsnummer={numero_clean}"
 
+            self.logger.info(f"Requesting URL: {url}")
+
+            yield scrapy.Request(
+                url,
+                callback=self.parse_company,
+                cb_kwargs={"num": numero_clean}, 
+                dont_filter=True,
+                errback=self.handle_error
+            )
+
+    def handle_error(self, failure):
+        self.logger.error(f"Request failed: {failure}")
+        if hasattr(failure.value, 'response'):
+            self.logger.error(f"Response status: {failure.value.response.status}")
+
+            
     def parse_company(self, response, num):
         # helpers
         def clean_text(text):

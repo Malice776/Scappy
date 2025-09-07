@@ -21,8 +21,8 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101
 #     "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
 #     "(KHTML, like Gecko) Chrome/123.0 Safari/537.36 ScrapyTP"
 # )
-
-ROBOTSTXT_OBEY = True
+LOG_LEVEL = 'DEBUG'
+ROBOTSTXT_OBEY = False
 DOWNLOAD_DELAY = 0.75
 AUTOTHROTTLE_ENABLED = True
 AUTOTHROTTLE_START_DELAY = 1.0

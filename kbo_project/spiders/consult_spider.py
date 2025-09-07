@@ -33,7 +33,7 @@ class ConsultSpider(scrapy.Spider):
             if not (year or date_txt or type_txt or ref or pdf):
                 continue
             yield {
-                "EnterpriseNumbe": num,
+                "EnterpriseNumber": num,
                 "source": "nbb",
                 "nbb_depots": [{
                     "exercice": year or None,
